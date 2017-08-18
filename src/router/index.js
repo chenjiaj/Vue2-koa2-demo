@@ -1,7 +1,6 @@
 import VueRouter from 'vue-router';
-import Example from '../views/example/example.vue';
-import Example1 from '../views/example/example1.vue';
-
+const Example = r => require.ensure([], () => r(require('../views/example/example.vue')), 'Example');
+const Example1 = r => require.ensure([], () => r(require('../views/example/example1.vue')), 'Example1');
 
 // 定义路由,
 const routes = [{
