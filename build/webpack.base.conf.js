@@ -30,18 +30,25 @@ module.exports = {
 					css: ExtractTextPlugin.extract({
 						use: 'css-loader',
 						fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
+					}),
+					less: ExtractTextPlugin.extract({
+						use: 'css-loader!less-loader',
+						fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
 					})
 				}
 			}
+		}, {
+			test: /\.less$/,
+			loader: 'less-loader'
 		}, {//页面中import css文件打包需要用到
 			test: /\.css/,
-			loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' })
+			loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader'})
 		}, {
 			test: /\.js$/,
 			loader: 'babel-loader',
 			/* 排除模块安装目录的文件 */
 			exclude: /node_modules/
-		},{
+		}, {
 			test: /\.png$|\.jpg$|\.gif$|\.ico$/,
 			loader: "file-loader",
 			exclude: /node_modules/

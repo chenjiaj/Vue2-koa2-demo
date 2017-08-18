@@ -1,5 +1,5 @@
 module.exports = {
 	node: {
-		port: 3010
+		port: 3011
 	}
 };
