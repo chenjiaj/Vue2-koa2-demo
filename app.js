@@ -6,7 +6,7 @@ const app = new Koa();
 const Config = require('./config/config');
 const onerror = require('koa-onerror');
 const middleware = require('koa-webpack');
-const webpackDevConf = require('./build/webpack.base.conf');
+const webpackDevConf = require('./build/webpack.dev.conf');
 const history = require('./middleware/koa2-connect-history-api-fallback');
 
 //错误信息处理
