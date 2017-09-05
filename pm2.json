@@ -1,0 +1,11 @@
+{
+  "apps": [
+    {
+      "name": "koa2+vue2-demo",
+      "script": "app.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}

@@ -14,7 +14,7 @@ module.exports = {
 	},
 	output: {
 		/* 输出目录，没有则新建 */
-		path: path.resolve(__dirname, '../dist'),
+		path: path.resolve(__dirname, '../output/static'),
 		/* 静态目录，可以直接从这里取文件 */
 		publicPath: '/',
 		/* 文件名 */
@@ -52,7 +52,36 @@ module.exports = {
 			test: /\.png$|\.jpg$|\.gif$|\.ico$/,
 			loader: "file-loader",
 			exclude: /node_modules/
-		}]
+		}, {
+			test: /\.png$|\.jpg$|\.gif$|\.ico$/,
+			loader: "file-loader",
+			exclude: /node_modules/
+		},
+			{
+				test: /\.(ttf|eot|svg|otf)(\?(.*))?$/,
+				use: [{
+					loader: 'file-loader',
+					options: {prefix: 'fonts/'}
+				}]
+			},
+			{
+				test: /\.(woff|woff2)(\?(.*))?$/,
+				use: [{
+					loader: 'url-loader',
+					options: {
+						prefix: 'factorynts/',
+						limit: 5000,
+						mimetype: 'application/font-woff'
+					}
+				}]
+			},
+			{
+				test: /\.json$/,
+				loader: 'json-loader'
+			}]
+	},
+	resolve: {
+		extensions: [' ', '.js', '.vue']
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
@@ -60,6 +89,8 @@ module.exports = {
 			template: path.resolve(__dirname, '../src/index.html'),
 			inject: true
 		}),
-		new ExtractTextPlugin("style.css")
+		new ExtractTextPlugin('css/[name].[chunkhash:7].css', {
+			allChunks: true
+		})
 	]
 };
