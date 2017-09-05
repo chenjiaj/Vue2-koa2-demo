@@ -9,6 +9,7 @@ const bodypaser = require('koa-body');
 const router = require('koa-router')();
 const onerror = require('koa-onerror');
 const middleware = require('koa-webpack');
+const webpackDevConf = require('./build/webpack.dev.conf');
 const history = require('./middleware/koa2-connect-history-api-fallback');
 const koaStatic = require('koa-static');
 
