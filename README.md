@@ -9,9 +9,9 @@
 
 ## 二、生成环境打包和运行
 
-1.运行npm run build 打包生成output文件夹
+1.运行npm run release 打包生成pkg里边的压缩包
 
-2.运行npm run prod 可以启动生成环境代码，也可以通过npm install -g pm2 全局安装pm2，然后运行npm run pm2_start来启动项目
+2.解压生成的包，进入包根目录下，通过npm install -g pm2 全局安装pm2，然后运行npm run pm2_start来启动项目
 
 ## 三、Vue2+koa2构建单页应用文档
 
