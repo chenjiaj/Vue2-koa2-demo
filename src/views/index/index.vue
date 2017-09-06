@@ -1,3 +1,3 @@
 <template>
-	<div>this is index</div>
+	<div id="index">hello this is index</div>
 </template>

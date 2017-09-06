@@ -4,7 +4,7 @@
 export default [
 	{
 		name: 'index',
-		path: '/',
+		path: '',
 		component: (resolve) => {
 			require.ensure(['./index.vue'], () => {
 				resolve(require('./index.vue'))

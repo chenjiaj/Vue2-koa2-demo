@@ -10,8 +10,8 @@ import IndexRouter from './views/example/router'
 const router = new Router({
 	mode: 'history',
 	routes: [
-		...CompeRouter,
-		...IndexRouter
+		...IndexRouter,
+		...CompeRouter
 	]
 })
 
