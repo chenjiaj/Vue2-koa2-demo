@@ -6,9 +6,6 @@ import App from './views/app';
 import VueRouter from 'vue-router';
 import router from './router';
 import store from './store';
-import ElementUI from 'element-ui';
-
-Vue.use(ElementUI);
 
 //注册路由插件
 Vue.use(VueRouter);
