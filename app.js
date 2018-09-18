@@ -1,56 +1,58 @@
 /**
- * Created by chenjiajun on 2017/8/17.
+ * Created by kid on 2017/5/15.
  */
 const Koa = require('koa');
-const app = new Koa();
-const Config = require('./config/config');
-const proxy = require('./middleware/proxy');
 const bodypaser = require('koa-body');
-const router = require('koa-router')();
-const onerror = require('koa-onerror');
-const middleware = require('koa-webpack');
-const webpackDevConf = require('./build/webpack.dev.conf');
-const history = require('./middleware/koa2-connect-history-api-fallback');
-const koaStatic = require('koa-static');
+const staticCache = require('koa-static-cache');
+const path = require('path');
+const favicon = require('koa-favicon');
+const webpack = require('webpack');
+const koaWebpack = require('koa-webpack');
 
-//错误信息处理
-onerror(app);
+const history = require('./middleware/koa2-connect-history-api-fallback');
+const proxy = require('./middleware/proxy');
+const config = require('./config');
+
+const app = new Koa();
+const { port } = config.node;
+
+app.use(async (ctx, next) => {
+  ctx.res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  if (ctx.method === 'PATCH' || ctx.method === 'OPTIONS' || ctx.method === 'DELETE' || ctx.method === 'HEAD' || ctx.method === 'PUT') {
+    ctx.response.status = 403;
+  } else {
+    await next();
+  }
+});
 
 app.use(history({
-	verbose: true
+  verbose: true
 }));
 
-if (app.env == 'development') {
-	const webpackDevConf = require('./build/webpack.dev.conf');
-	
-	//开发环境使用webpack编译和热加载插件
-	app.use(middleware({
-		config: webpackDevConf,
-		dev: {
-			stats: {//打出日志的颜色
-				colors: true
-			}
-		}
-	}));
-	
+app.use(favicon(`${path.join(__dirname)}/favicon.ico`));
+
+if (app.env === 'development') {
+  const webpackDevConfig = require('./build/webpack.dev.config');
+  const compiler = webpack(webpackDevConfig);
+
+  app.use(koaWebpack({
+    compiler
+  }));
 } else {
-	app.use(koaStatic(__dirname + '/static'));
+  app.use(staticCache(path.join(__dirname, '/dist')));
 }
 
-//控制台打印请求信息
 app.use(async (ctx, next) => {
-	const start = Date.now();
-	await next();
-	const ms = Date.now() - start;
-	console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
+  const start = Date.now();
+  await next();
+  const ms = Date.now() - start;
+  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
 app.use(bodypaser());
 
 app.use(proxy('/api', {
-	target: Config.api.url
+  target: config.api.url
 }));
 
-app.use(router.routes()).use(router.allowedMethods());
-
-app.listen(Config.node.port);
+app.listen(port, () => console.log(`🚀 Server ready at http://localhost:${port}`));

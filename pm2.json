@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "name": "koa2+vue2-demo",
+      "name": "weixin-public-web",
       "script": "app.js",
       "env": {
         "NODE_ENV": "production"
